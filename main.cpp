@@ -1,3 +1,10 @@
-#include <iostream>
+#include <fmt/color.h>
+#include <fmt/core.h>
+#include <fmt/std.h>
 
-auto main() -> int { std::cout << "Hello world" << std::endl; }
+#include "display.h"
+
+auto main() -> int {
+  JAVA::display();
+  return 0;
+}
