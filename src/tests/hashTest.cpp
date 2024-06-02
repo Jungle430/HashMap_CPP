@@ -36,13 +36,10 @@ class MyClass {
 template <>
 struct std::hash<MyClass> {
   auto operator()(const MyClass &obj) const -> std::size_t {
-    __uint128_t ans = 0;
+    std::size_t ans = 0;
     ans += std::hash<std::size_t>()(obj.age);
-    ans %= std::numeric_limits<std::size_t>::max();
     ans += std::hash<std::string>()(obj.name);
-    ans %= std::numeric_limits<std::size_t>::max();
-    return static_cast<std::size_t>(ans &
-                                    std::numeric_limits<std::size_t>::max());
+    return ans;
   }
 };
 
