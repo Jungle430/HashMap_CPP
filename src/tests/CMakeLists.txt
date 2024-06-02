@@ -1,6 +1,7 @@
 set(TEST_FILES 
     getTest.cpp 
     putTest.cpp
+    hashTest.cpp
 )
 
 set(THIRD_LIBRARY
