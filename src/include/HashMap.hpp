@@ -2,6 +2,7 @@
 
 #include <fmt/format.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <limits>
 #include <optional>
@@ -79,28 +80,98 @@ class HashMap {
 
   std::size_t size_ = 0;
 
-  auto resize() noexcept -> void{
-      // std::size_t oldCap = tables_.size();
-      // std::size_t oldThr = threshold_;
-      // std::size_t newCap = 0;
-      // std::size_t newThr = 0;
+  float loadFactor;
 
-      // if (oldCap >= MAXIMUM_CAPACITY) {
-      //   threshold_ = std::numeric_limits<std::size_t>::max();
-      //   return;
-      // }
+  // NOLINTNEXTLINE(readability-function-cognitive-complexity)
+  auto resize() noexcept -> void {
+    std::size_t oldCap = tables_.size();
+    std::size_t oldThr = threshold_;
+    std::size_t newCap = 0;
+    std::size_t newThr = 0;
 
-      // if ((newCap = (oldCap << 1)) < MAXIMUM_CAPACITY &&
-      //     oldCap >= DEFAULT_INITIAL_CAPACITY) {
-      //   newThr = oldThr << 1;
-      // }
+    if (oldCap >= MAXIMUM_CAPACITY) {
+      threshold_ = std::numeric_limits<std::size_t>::max();
+      return;
+    }
+
+    if ((newCap = (oldCap << 1)) < MAXIMUM_CAPACITY &&
+        oldCap >= DEFAULT_INITIAL_CAPACITY) {
+      newThr = oldThr << 1;
+    }
+
+    if (newThr == 0) {
+      float ft = static_cast<float>(newCap) * loadFactor;
+      newThr = (newCap < MAXIMUM_CAPACITY &&
+                        ft < static_cast<float>(MAXIMUM_CAPACITY)
+                    ? static_cast<std::size_t>(ft)
+                    : std::numeric_limits<std::size_t>::max());
+    }
+
+    threshold_ = newThr;
+    std::vector<Node *> newTable(newCap, nullptr);
+
+    // move data
+    for (std::size_t i = 0; i < oldCap; i++) {
+      Node *e = nullptr;
+
+      if ((e = tables_[i]) != nullptr) {
+        // table -> e -> nullptr
+        if (e->next == nullptr) {
+          newTable[e->hash_code & (newCap - 1)] = e;
+        } else {
+          // table -> e1 -> e2 -> ...
+          Node *loHead = nullptr;
+          Node *loTail = nullptr;
+
+          Node *hiHead = nullptr;
+          Node *hiTail = nullptr;
+
+          Node *next = nullptr;
+
+          do {
+            next = e->next;
+
+            if ((e->hash_code & oldCap) == 0) {
+              // no need to move(because the bit length <= oldCap)
+              if (loTail == nullptr) {
+                loHead = e;
+              } else {
+                loTail->next = e;
+              }
+              loTail = e;
+            } else {
+              // need to move
+              if (hiTail == nullptr) {
+                hiHead = e;
+              } else {
+                hiTail->next = e;
+              }
+              hiTail = e;
+            }
+
+          } while ((e = next) != nullptr);
+
+          if (loTail != nullptr) {
+            loTail->next = nullptr;
+            newTable[i] = loHead;
+          }
+
+          if (hiTail != nullptr) {
+            hiTail->next = nullptr;
+            newTable[i + oldCap] = hiHead;
+          }
+        }
+      }
+    }
+    tables_ = std::move(newTable);
   };
 
  public:
   HashMap() noexcept
       : capacity_(DEFAULT_INITIAL_CAPACITY),
         tables_(std::vector<Node *>(DEFAULT_INITIAL_CAPACITY, nullptr)),
-        threshold_(capacity_ * DEFAULT_LOAD_FACTOR){};
+        threshold_(capacity_ * DEFAULT_LOAD_FACTOR),
+        loadFactor(DEFAULT_LOAD_FACTOR){};
 
   template <typename KeyType, typename ValueType>
   auto Put(KeyType &&key, ValueType &&value) noexcept -> void {
