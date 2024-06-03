@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10...3.22)
 include_directories(include)
 
 file(COPY source/display.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/source)

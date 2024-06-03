@@ -38,7 +38,7 @@ class HashMap {
    * Hash Function, if is not the basic type, you can using your hash function
    * by Instantiated template
    */
-  constexpr static std::hash<K> HASH_FUNCTION;
+  constexpr static std::hash<K> HASH_FUNCTION = std::hash<K>();
 
   constexpr static std::size_t HASHCODE_REMOVE_SIZE = 1 << 4;
 
@@ -148,9 +148,16 @@ class HashMap {
       node->~Node();
       std::memset(node, 0, sizeof(Node));
       del_list.emplace_back(node);
-      // if (++size_ > blockSize_ * free_deallocate_node_load_factor_) {
-      //   freeBlock();
-      // }
+      if (++size_ > blockSize_ * free_deallocate_node_load_factor_) {
+        freeBlock();
+      }
+    }
+
+    ~ObjectPool() {
+      while (index_ < blockSize_) {
+        ::operator delete(free_list_[index_++]);
+      }
+
       freeBlock();
     }
   };
@@ -387,6 +394,18 @@ class HashMap {
   [[nodiscard]] auto size() const noexcept -> std::size_t { return size_; }
 
   [[nodiscard]] auto empty() const noexcept -> bool { return size_ == 0; }
+
+  ~HashMap() {
+    for (Node *tableNode : tables_) {
+      Node *curr = tableNode;
+      Node *next = tableNode;
+      while (curr != nullptr) {
+        next = curr->next;
+        objectPool_.deallocate(curr);
+        curr = next;
+      }
+    }
+  }
 };
 
 }  // namespace JAVA
