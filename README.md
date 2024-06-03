@@ -23,6 +23,7 @@ This C++ library provides an efficient HashMap implementation designed to offer 
 
 ```shell
 git clone https://github.com/Jungle430/HashMap_CPP.git
+cd HashMap_CPP
 git submodule init
 git submodule update
 mkdir build
