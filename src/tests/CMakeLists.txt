@@ -2,11 +2,11 @@ set(TEST_FILES
     putAndGetTest.cpp
     hashTest.cpp
     sizeTest.cpp
+    delTest.cpp
     containTest.cpp
 )
 
 set(THIRD_LIBRARY
-    fmt::fmt
     gtest
     gtest_main
 )

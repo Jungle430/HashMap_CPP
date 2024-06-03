@@ -7,7 +7,6 @@ set(CMAKE_CXX_COMPILER $ENV{clang})
 
 
 set(THIRD_LIBRARY
-    fmt::fmt
     gtest
     gtest_main
 )
