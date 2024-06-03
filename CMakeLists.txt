@@ -19,7 +19,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/benchmark)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(HASHMAP_CPP main.cpp)
+add_executable(HASHMAP_CPP src/tests/benchmarkTest.cpp)
 target_link_libraries(HASHMAP_CPP HASH_MAP ${THIRD_LIBRARY})
 
 enable_testing()
