@@ -17,7 +17,6 @@ This C++ library provides an efficient HashMap implementation designed to offer 
 ## Features
 
 - **High Performance:** The HashMap implementation is optimized to maintain high efficiency when processing large-scale data.
-- **Compatibility with Standard Library:** Compatible with the interface of std::unordered_map, making it easy to replace existing code.
 - **Simple Inclusion:** Just include the header file, no need for cumbersome setup or configuration.
 
 ## BenckMark Test
