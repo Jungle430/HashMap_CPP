@@ -1,6 +1,5 @@
-set(TEST_FILES 
-    getTest.cpp 
-    putTest.cpp
+set(TEST_FILES
+    putAndGetTest.cpp
     hashTest.cpp
     sizeTest.cpp
     containTest.cpp

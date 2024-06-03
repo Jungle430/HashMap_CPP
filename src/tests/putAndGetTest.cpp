@@ -7,7 +7,7 @@
 #include "../include/HashMap.hpp"
 
 // NOLINTNEXTLINE(modernize-use-trailing-return-type,readability-function-cognitive-complexity)
-TEST(PutTestBasicType, AssertionTrue) {
+TEST(PutAndGetTestBasicType, AssertionTrue) {
   JAVA::HashMap<int, int> h1;
   // NOLINTNEXTLINE(readability-magic-numbers)
   for (int i = 0; i < 1000; i++) {
@@ -35,7 +35,7 @@ TEST(PutTestBasicType, AssertionTrue) {
 }
 
 // NOLINTNEXTLINE(modernize-use-trailing-return-type)
-TEST(PutTestString, AssertionTrue) {
+TEST(PutAndGetTestString, AssertionTrue) {
   JAVA::HashMap<std::string, int> h3;
   h3.Put(std::string("Hello world"), 1);
   h3.Put(std::string("Hello world"), 2);
@@ -76,7 +76,7 @@ struct std::hash<MyClass> {
 };
 
 // NOLINTNEXTLINE(modernize-use-trailing-return-type)
-TEST(PutTestMyClassType, AssertionTrue) {
+TEST(PutAndGetTestMyClassType, AssertionTrue) {
   // NOLINTNEXTLINE(readability-magic-numbers)
   MyClass obj1("jack", 42);
   // NOLINTNEXTLINE(readability-magic-numbers)
