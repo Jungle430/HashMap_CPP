@@ -49,4 +49,20 @@ Benchmark                               Time             CPU   Iterations
 CustomHashMapBenchmark         3882636393 ns   3879073300 ns            1
 CustomStdUnorderedMapBenchmark 7883063037 ns   7883028200 ns            1
 CustomStdMapBenchmark          4078177020 ns   4078161000 ns            1
+
+-------------------------------------------------------------------------
+
+Run on (20 X 3541.01 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x10)
+  L1 Instruction 32 KiB (x10)
+  L2 Unified 512 KiB (x10)
+  L3 Unified 32768 KiB (x1)
+Load Average: 29.15, 29.90, 26.38
+-------------------------------------------------------------------------
+Benchmark                               Time             CPU   Iterations
+-------------------------------------------------------------------------
+CustomHashMapBenchmark         4668446508 ns   4666786099 ns            1
+CustomStdUnorderedMapBenchmark 7052167919 ns   7050251066 ns            1
+CustomStdMapBenchmark          5843635374 ns   5842357489 ns            1
 ```
